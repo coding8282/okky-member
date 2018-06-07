@@ -202,7 +202,7 @@ public class Member implements Aggregate {
             return;
         }
         String trimed = motto.trim();
-        assertArgLength(trimed, 40, format("좌우명은 최대 %d자까지만 가능합니다: 현재 %d자", 40, trimed.length()));
+        assertArgLength(trimed, 120, format("좌우명은 최대 %d자까지만 가능합니다: 현재 %d자", 120, trimed.length()));
         this.motto = trimed;
     }
 
@@ -212,7 +212,7 @@ public class Member implements Aggregate {
             return;
         }
         String trimed = description.trim();
-        assertArgLength(trimed, 200, format("작끼 소개는 최대 %d자까지만 가능합니다: 현재 %d자", 200, trimed.length()));
+        assertArgLength(trimed, 200, format("자기 소개는 최대 %d자까지만 가능합니다: 현재 %d자", 200, trimed.length()));
         this.description = trimed;
     }
 
