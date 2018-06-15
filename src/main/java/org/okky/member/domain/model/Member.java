@@ -54,7 +54,7 @@ public class Member implements Aggregate {
     @Enumerated(STRING)
     private Sex sex;
 
-    @Column(length = 40)
+    @Column(length = 200)
     @Audited
     private String motto;
 
