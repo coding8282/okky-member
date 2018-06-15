@@ -21,7 +21,6 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <aws-cognitoidp.version>1.11.232</aws-cognitoidp.version>
         <aws-s3.version>1.11.232</aws-s3.version>
-        <okky.repo.url>s3://okky-mvn-repo</okky.repo.url>
         <spring-cloud.version>Finchley.BUILD-SNAPSHOT</spring-cloud.version>
         <okky-share.version>1.0.1</okky-share.version>
     </properties>
@@ -154,13 +153,29 @@
             <repositories>
                 <repository>
                     <id>okky-release</id>
-                    <url>${okky.repo.url}/prod/release</url>
+                    <url>s3://okky-mvn-repo/prod/release</url>
                 </repository>
                 <repository>
                     <id>okky-snapshot</id>
-                    <url>${okky.repo.url}/prod/snapshot</url>
+                    <url>s3://okky-mvn-repo/prod/snapshot</url>
                     <snapshots>
-                        <updatePolicy>always</updatePolicy>
+                        <updatePolicy>daily</updatePolicy>
+                    </snapshots>
+                </repository>
+            </repositories>
+        </profile>
+        <profile>
+            <id>stg</id>
+            <repositories>
+                <repository>
+                    <id>okky-release</id>
+                    <url>s3://okky-mvn-repo-stg/release</url>
+                </repository>
+                <repository>
+                    <id>okky-snapshot</id>
+                    <url>s3://okky-mvn-repo-stg/snapshot</url>
+                    <snapshots>
+                        <updatePolicy>interval:30</updatePolicy>
                     </snapshots>
                 </repository>
             </repositories>
