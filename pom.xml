@@ -22,8 +22,8 @@
         <aws-cognitoidp.version>1.11.232</aws-cognitoidp.version>
         <aws-s3.version>1.11.232</aws-s3.version>
         <spring-cloud.version>Finchley.BUILD-SNAPSHOT</spring-cloud.version>
+        <log4jdbc-log4j2-jdbc4.1.version>1.16</log4jdbc-log4j2-jdbc4.1.version>
         <okky-share.version>1.0.1</okky-share.version>
-        <ojdbc6.version>11.2.0.3</ojdbc6.version>
     </properties>
 
     <dependencies>
@@ -59,9 +59,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc6</artifactId>
-            <version>${ojdbc6.version}</version>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -80,6 +79,11 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.bgee.log4jdbc-log4j2</groupId>
+            <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
+            <version>${log4jdbc-log4j2-jdbc4.1.version}</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
@@ -146,10 +150,6 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-        </repository>
-        <repository>
-            <id>codelds</id>
-            <url>https://code.lds.org/nexus/content/groups/main-repo</url>
         </repository>
     </repositories>
 
