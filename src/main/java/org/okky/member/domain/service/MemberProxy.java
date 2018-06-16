@@ -9,7 +9,7 @@ import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
+import java.util.Random;
 
 @Service
 public class MemberProxy {
@@ -47,10 +47,13 @@ public class MemberProxy {
     }
 
     /**
-     * 랜덤 이미지를 쁘사로 업로드한다.
+     * s3 쁘사이미지서버에서 샘플 쁘사를 랜덤하게 복제한다.
      */
-    public void uploadProfileImage(String memberId, File imageFile) {
-        s3Client.putObject(bucketName, memberId + ".jpg", imageFile);
+    public void generateProfileImage(String memberId) {
+        int no = new Random().nextInt(15) + 1;
+        String sourceKey = "sample/" + no + ".jpg";
+        String destinationKey = memberId + ".jpg";
+        s3Client.copyObject(bucketName, sourceKey, bucketName, destinationKey);
     }
 
     public void deleteProfile(String memberId) {
