@@ -10,9 +10,12 @@ import org.okky.member.domain.model.Sex;
 import org.okky.member.domain.repository.MemberRepository;
 import org.okky.member.domain.service.MemberConstraint;
 import org.okky.member.domain.service.MemberProxy;
+import org.okky.member.util.ProfileImageUtil;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.File;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -38,8 +41,8 @@ public class MemberService {
         String id = proxy.signup(cmd.getEmail(), cmd.getPassword());
         member.assignId(id);
         repository.save(member);
-//        File imageFile = ProfileImageUtil.generageRandomProfileImage();
-//        proxy.uploadProfileImage(id, imageFile);
+        File imageFile = ProfileImageUtil.generageRandomProfileImage();
+        proxy.uploadProfileImage(id, imageFile);
     }
 
     @PreAuthorize("@memberSecurityInspector.isMe(#cmd.memberId)")
