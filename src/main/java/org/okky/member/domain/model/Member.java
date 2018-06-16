@@ -3,6 +3,7 @@ package org.okky.member.domain.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.Type;
 import org.hibernate.envers.Audited;
 import org.okky.member.domain.exception.PaperingDetected;
@@ -18,12 +19,14 @@ import javax.persistence.*;
 import static java.lang.String.format;
 import static java.lang.System.currentTimeMillis;
 import static javax.persistence.EnumType.STRING;
+import static lombok.AccessLevel.PRIVATE;
 import static lombok.AccessLevel.PROTECTED;
 import static org.okky.share.domain.AssertionConcern.assertArgLength;
 import static org.okky.share.domain.AssertionConcern.assertArgNotNull;
 
 @NoArgsConstructor(access = PROTECTED)
 @EqualsAndHashCode(of = "id", callSuper = false)
+@FieldDefaults(level = PRIVATE)
 @Getter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -36,46 +39,46 @@ import static org.okky.share.domain.AssertionConcern.assertArgNotNull;
 public class Member implements Aggregate {
     @Id
     @Column(length = 50)
-    private String id;
+    String id;
 
     @Column(name = "EMAIL", nullable = false, length = 30)
     @Audited
-    private String email;
+    String email;
 
     @Column(nullable = false, length = 50)
     @Audited
-    private String name;
+    String name;
 
     @Column(name = "NICK_NAME", nullable = false, length = 50)
     @Audited
-    private String nickName;
+    String nickName;
 
     @Column(nullable = false, length = 7)
     @Enumerated(STRING)
-    private Sex sex;
+    Sex sex;
 
     @Column(length = 200)
     @Audited
-    private String motto;
+    String motto;
 
     @Column(length = 200)
-    private String description;
+    String description;
 
     @Column(nullable = false, updatable = false, length = 1)
     @Type(type = "true_false")
-    private boolean admin;
+    boolean admin;
 
     @CreatedDate
     @Column(nullable = false, updatable = false, columnDefinition = "BIGINT UNSIGNED")
-    private long joinedOn;
+    long joinedOn;
 
     @Embedded
     @Column(nullable = false)
-    private LastLog lastLog;
+    LastLog lastLog;
 
     @Embedded
     @Column
-    private DropDetail dropDetail;
+    DropDetail dropDetail;
 
     public Member(String email, String name, String nickName, Sex sex, String motto, String description) {
         setEmail(email);

@@ -3,6 +3,7 @@ package org.okky.member.domain.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.okky.share.domain.Aggregate;
 
 import javax.persistence.Column;
@@ -19,16 +20,17 @@ import static org.okky.share.util.JsonUtil.toPrettyJson;
 
 @NoArgsConstructor(access = PRIVATE)
 @EqualsAndHashCode(of = "id", callSuper = false)
+@FieldDefaults(level = PRIVATE)
 @Getter
 @Entity
 public class Motto implements Aggregate {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column
-    private Long id;
+    Long id;
 
     @Column(length = 100, nullable = false)
-    private String sentence;
+    String sentence;
 
     public Motto(String sentence) {
         assertArgNotNull(sentence, "좌우명은 필수입니다.");
