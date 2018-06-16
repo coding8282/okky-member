@@ -12,7 +12,7 @@ public interface MottoRepository {
     void save(Motto motto);
     @Query(value = "SELECT " +
             "M.SENTENCE " +
-            "FROM MOTTO M " +
+            "FROM motto M " +
             "ORDER BY RAND() " +
             "LIMIT :limit", nativeQuery = true)
     List<String> findRandomly(@Param("limit") int limit);
