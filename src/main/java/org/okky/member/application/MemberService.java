@@ -1,6 +1,7 @@
 package org.okky.member.application;
 
 import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.okky.member.application.command.DropMemberCommand;
 import org.okky.member.application.command.JoinMemberCommand;
 import org.okky.member.application.command.ModifyMemberCommand;
@@ -13,13 +14,16 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @Service
 @Transactional
 @AllArgsConstructor
+@FieldDefaults(level = PRIVATE)
 public class MemberService {
-    private MemberRepository repository;
-    private MemberConstraint constraint;
-    private MemberProxy proxy;
+    MemberRepository repository;
+    MemberConstraint constraint;
+    MemberProxy proxy;
 
     public void join(JoinMemberCommand cmd) {
         constraint.checkAvailableEmail(cmd.getEmail());
