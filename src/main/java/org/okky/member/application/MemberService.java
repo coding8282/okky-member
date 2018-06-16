@@ -28,7 +28,13 @@ public class MemberService {
     public void join(JoinMemberCommand cmd) {
         constraint.checkAvailableEmail(cmd.getEmail());
         constraint.checkAvailableNickName(cmd.getNickName());
-        Member member = ModelMapper.toMember(cmd);
+        Member member = new Member(
+                cmd.getEmail(),
+                cmd.getName(),
+                cmd.getNickName(),
+                Sex.parse(cmd.getSex()),
+                cmd.getMotto(),
+                cmd.getDescription());
         String id = proxy.signup(cmd.getEmail(), cmd.getPassword());
         member.assignId(id);
         repository.save(member);
