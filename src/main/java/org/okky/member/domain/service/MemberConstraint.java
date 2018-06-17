@@ -15,23 +15,23 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @FieldDefaults(level = PRIVATE)
 public class MemberConstraint {
-    MemberRepository memberRepository;
+    MemberRepository repository;
 
     public Member checkExistsAndGet(String memberId) {
-        Member member = memberRepository.findById(memberId).orElse(null);
+        Member member = repository.findById(memberId).orElse(null);
         if (member == null)
             throw new ModelNotExists(format("해당 회원은 존재하지 않습니다: '%s'", memberId));
         return member;
     }
 
-    public void checkAvailableEmail(String email) {
-        Member member = memberRepository.findByEmail(email).orElse(null);
+    public void rejectIfUnavailableEmail(String email) {
+        Member member = repository.findByEmail(email).orElse(null);
         if (member != null)
             throw new ModelConflicted(format("해당 이메일은 다른 사용자가 이미 사용 중이거나 탈퇴한 사용자입니다: '%s'", email));
     }
 
-    public void checkAvailableNickName(String nickName) {
-        if (memberRepository.existsByNickName(nickName))
+    public void rejectIfUnavailableNickName(String nickName) {
+        if (repository.existsByNickName(nickName))
             throw new ModelConflicted(format("해당 닉네임은 다른 사용자가 이미 사용 중입니다: '%s'", nickName));
     }
 }
