@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.okky.share.domain.ValueObject;
+import org.okky.share.util.JsonUtil;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -37,18 +38,20 @@ public class DropDetail implements ValueObject {
     }
 
     public static DropDetail sample() {
-        return new DropDetail("개인 정보 유출을 우려하여");
+        String dropReason = "개인 정보 유출을 우려하여";
+        DropDetail detail = new DropDetail(dropReason);
+        return detail;
     }
 
     public static void main(String[] args) {
-        System.out.println(sample());
+        System.out.println(JsonUtil.toPrettyJson(sample()));
     }
 
     // ---------------------------------
     private void setDropReason(String dropReason) {
         assertArgNotNull(dropReason, "탈퇴사유는 필수입니다.");
         String trimed = dropReason.trim();
-        assertArgLength(trimed, 1, 100, format("탈퇴사유는 %d~%d자까지 가능합니다.", 1, 100));
+        assertArgLength(trimed, 1, 200, format("탈퇴사유는 %d~%d자까지 가능합니다.", 1, 200));
         this.dropReason = trimed;
     }
 }

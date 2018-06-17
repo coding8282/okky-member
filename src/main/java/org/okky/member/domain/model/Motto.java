@@ -18,6 +18,12 @@ import static org.okky.share.domain.AssertionConcern.assertArgLength;
 import static org.okky.share.domain.AssertionConcern.assertArgNotNull;
 import static org.okky.share.util.JsonUtil.toPrettyJson;
 
+
+/**
+ * 좌우명 추천 기능을 위해 사용하는 모델.
+ *
+ * @author coding8282
+ */
 @NoArgsConstructor(access = PRIVATE)
 @EqualsAndHashCode(of = "id", callSuper = false)
 @FieldDefaults(level = PRIVATE)
@@ -29,17 +35,23 @@ public class Motto implements Aggregate {
     @Column
     Long id;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 200, nullable = false)
     String sentence;
 
     public Motto(String sentence) {
         assertArgNotNull(sentence, "좌우명은 필수입니다.");
-        assertArgLength(sentence, 100, format("좌우명은 최대 %d자까지 가능합니다.", 100));
-        this.sentence = sentence;
+        String trimed = sentence.trim();
+        assertArgLength(trimed, 1, 200, format("좌우명은 %d~%d자까지 가능합니다.", 1, 200));
+        this.sentence = trimed;
     }
 
+    // ------------------------------------------------
     public static void main(String[] args) {
-        String sentence1 = "일찍 일어나는 새가 피곤하당...";
-        System.out.println(toPrettyJson(new Motto(sentence1)));
+        System.out.println(toPrettyJson(sample()));
+    }
+
+    public static Motto sample() {
+        Motto motto = new Motto("일찍 일어나는 새가 피곤하당...");
+        return motto;
     }
 }
