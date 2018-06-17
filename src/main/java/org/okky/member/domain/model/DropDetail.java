@@ -17,7 +17,7 @@ import static java.lang.String.format;
 import static lombok.AccessLevel.PRIVATE;
 import static lombok.AccessLevel.PROTECTED;
 import static org.okky.share.domain.AssertionConcern.assertArgLength;
-import static org.okky.share.domain.AssertionConcern.assertArgNotNull;
+import static org.okky.share.domain.AssertionConcern.assertArgNotEmpty;
 
 @NoArgsConstructor(access = PROTECTED)
 @EqualsAndHashCode(callSuper = false)
@@ -49,7 +49,7 @@ public class DropDetail implements ValueObject {
 
     // ---------------------------------
     private void setDropReason(String dropReason) {
-        assertArgNotNull(dropReason, "탈퇴사유는 필수입니다.");
+        assertArgNotEmpty(dropReason, "탈퇴사유는 필수입니다.");
         String trimed = dropReason.trim();
         assertArgLength(trimed, 1, 200, format("탈퇴사유는 %d~%d자까지 가능합니다.", 1, 200));
         this.dropReason = trimed;
