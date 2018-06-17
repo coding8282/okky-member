@@ -24,17 +24,12 @@ public class MemberService {
     MemberRepository repository;
     MemberConstraint constraint;
     MemberProxy proxy;
+    ModelMapper mapper;
 
     public void join(JoinMemberCommand cmd) {
         constraint.rejectIfUnavailableEmail(cmd.getEmail());
         constraint.rejectIfUnavailableNickName(cmd.getNickName());
-        Member member = new Member(
-                cmd.getEmail(),
-                cmd.getName(),
-                cmd.getNickName(),
-                Sex.parse(cmd.getSex()),
-                cmd.getMotto(),
-                cmd.getDescription());
+        Member member = mapper.toModel(cmd);
         String id = proxy.signup(cmd.getEmail(), cmd.getPassword());
         member.assignId(id);
         repository.save(member);
