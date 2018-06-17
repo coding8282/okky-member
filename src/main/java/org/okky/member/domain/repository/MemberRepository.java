@@ -17,7 +17,6 @@ public interface MemberRepository extends RevisionRepository<Member, String, Lon
     boolean existsByEmail(String email);
     Optional<Member> findById(String id);
     Optional<Member> findByEmail(String email);
-    void delete(Member member);
 
     @Query("select " +
             "new org.okky.member.domain.repository.dto.MemberDto(m) " +
