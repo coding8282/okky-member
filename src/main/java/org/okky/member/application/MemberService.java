@@ -26,8 +26,8 @@ public class MemberService {
     MemberProxy proxy;
 
     public void join(JoinMemberCommand cmd) {
-        constraint.checkAvailableEmail(cmd.getEmail());
-        constraint.checkAvailableNickName(cmd.getNickName());
+        constraint.rejectIfUnavailableEmail(cmd.getEmail());
+        constraint.rejectIfUnavailableNickName(cmd.getNickName());
         Member member = new Member(
                 cmd.getEmail(),
                 cmd.getName(),
@@ -47,7 +47,7 @@ public class MemberService {
         Sex sex = Sex.parse(cmd.getSex());
         Member member = constraint.checkExistsAndGet(cmd.getMemberId());
         if (member.isDifferentNickName(nickName))
-            constraint.checkAvailableNickName(nickName);
+            constraint.rejectIfUnavailableNickName(nickName);
         member.modify(cmd.getName(), nickName, sex, cmd.getMotto(), cmd.getDescription());
     }
 

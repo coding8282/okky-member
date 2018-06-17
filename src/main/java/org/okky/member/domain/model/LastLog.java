@@ -11,6 +11,8 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 import static lombok.AccessLevel.PRIVATE;
+import static org.okky.member.domain.model.PaperingRule.ARTICLE_INTERVAL;
+import static org.okky.member.domain.model.PaperingRule.REPLY_INTERVAL;
 import static org.okky.share.util.JsonUtil.toPrettyJson;
 
 @AllArgsConstructor(access = PRIVATE)
@@ -61,7 +63,7 @@ public class LastLog implements ValueObject {
                 .lastWroteReplyId(lastWroteReplyId)
                 .lastArticleWroteOn(wroteOn)
                 .lastReplyWroteOn(lastReplyWroteOn)
-                .nextArticleTime(wroteOn + PaperingRule.ARTICLE_INTERVAL)
+                .nextArticleTime(wroteOn + ARTICLE_INTERVAL)
                 .nextReplyTime(nextReplyTime)
                 .build();
     }
@@ -73,7 +75,7 @@ public class LastLog implements ValueObject {
                 .lastArticleWroteOn(lastArticleWroteOn)
                 .lastReplyWroteOn(repliedOn)
                 .nextArticleTime(nextArticleTime)
-                .nextReplyTime(repliedOn + PaperingRule.REPLY_INTERVAL)
+                .nextReplyTime(repliedOn + REPLY_INTERVAL)
                 .build();
     }
 }

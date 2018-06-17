@@ -1,14 +1,16 @@
 package org.okky.member.domain.model;
 
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.okky.share.execption.BadArgument;
 
 import static java.lang.String.format;
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 public final class EmailRule {
-    private static final String PATTERN = "^[_a-zA-Z0-9-\\.]+@[\\.a-zA-Z0-9-]+\\.[a-zA-Z]+$";
+    static String PATTERN = "^[_a-zA-Z0-9-\\.]+@[\\.a-zA-Z0-9-]+\\.[a-zA-Z]+$";
 
     public static void rejectIfIllegalPattern(String email) {
         if (!email.matches(PATTERN))
