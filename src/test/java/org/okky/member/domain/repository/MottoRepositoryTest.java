@@ -18,14 +18,14 @@ public class MottoRepositoryTest extends RepositoryTestMother {
 
     @Test
     public void find() {
-        Motto motto1 = new Motto("좌우명1");
-        Motto motto2 = new Motto("좌우명2");
-        Motto motto3 = new Motto("좌우명3");
-        repository.save(motto1);
-        repository.save(motto2);
-        repository.save(motto3);
+        Motto m1 = new Motto("좌우명1");
+        Motto m2 = new Motto("좌우명2");
+        Motto m3 = new Motto("좌우명3");
+        repository.save(m1);
+        repository.save(m2);
+        repository.save(m3);
         List<String> mottos = repository.findRandomly(7);
 
-        assertThat(mottos, hasItems(motto1.getSentence(), motto2.getSentence(), motto3.getSentence()));
+        assertThat(mottos, hasItems(m1.getSentence(), m2.getSentence(), m3.getSentence()));
     }
 }
