@@ -1,17 +1,20 @@
 package org.okky.member.domain.repository;
 
+import lombok.experimental.FieldDefaults;
 import org.junit.Test;
 import org.okky.member.domain.model.Motto;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+import static lombok.AccessLevel.PRIVATE;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.junit.Assert.assertThat;
 
+@FieldDefaults(level = PRIVATE)
 public class MottoRepositoryTest extends RepositoryTestMother {
     @Autowired
-    private MottoRepository repository;
+    MottoRepository repository;
 
     @Test
     public void find() {

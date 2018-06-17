@@ -1,15 +1,17 @@
 package org.okky.member.domain.model;
 
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 import static java.lang.String.format;
 import static lombok.AccessLevel.PRIVATE;
 import static org.okky.share.domain.AssertionConcern.assertArgLength;
 
 @NoArgsConstructor(access = PRIVATE)
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 class NameRule {
-    private static final int MIN = 2;
-    private static final int MAX = 10;
+    static int MIN = 2;
+    static int MAX = 10;
 
     static void rejectIfBadLength(String name) {
         assertArgLength(name, MIN, MAX,

@@ -1,18 +1,21 @@
 package org.okky.member.domain.service;
 
 import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.okky.member.domain.model.Member;
 import org.okky.member.domain.repository.MemberRepository;
-import org.springframework.stereotype.Service;
 import org.okky.share.execption.ModelConflicted;
 import org.okky.share.execption.ModelNotExists;
+import org.springframework.stereotype.Service;
 
 import static java.lang.String.format;
+import static lombok.AccessLevel.PRIVATE;
 
 @Service
 @AllArgsConstructor
+@FieldDefaults(level = PRIVATE)
 public class MemberConstraint {
-    private MemberRepository memberRepository;
+    MemberRepository memberRepository;
 
     public Member checkExistsAndGet(String memberId) {
         Member member = memberRepository.findById(memberId).orElse(null);

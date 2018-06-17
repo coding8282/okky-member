@@ -1,17 +1,20 @@
 package org.okky.member.domain.repository;
 
+import lombok.experimental.FieldDefaults;
 import org.junit.Test;
 import org.okky.member.domain.model.Member;
 import org.okky.member.domain.model.Sex;
 import org.okky.member.domain.repository.dto.MemberDto;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import static lombok.AccessLevel.PRIVATE;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+@FieldDefaults(level = PRIVATE)
 public class MemberRepositoryTest extends RepositoryTestMother {
     @Autowired
-    private MemberRepository repository;
+    MemberRepository repository;
 
     @Test
     public void findDtoById() {

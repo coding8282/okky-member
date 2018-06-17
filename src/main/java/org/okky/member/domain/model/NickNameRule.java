@@ -1,6 +1,7 @@
 package org.okky.member.domain.model;
 
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.apache.commons.lang3.StringUtils;
 import org.okky.share.execption.BadArgument;
 
@@ -13,10 +14,11 @@ import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
 import static org.okky.share.domain.AssertionConcern.assertArgLength;
 
 @NoArgsConstructor(access = PRIVATE)
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 public class NickNameRule {
-    public static final List<String> BAD_NICK_NAMES = asList("운영자,ADMIN,관리자,OKKY,ROOT".split(","));
-    private static final int MIN = 2;
-    private static final int MAX = 10;
+    static List<String> BAD_NICK_NAMES = asList("운영자,ADMIN,관리자,OKKY,ROOT".split(","));
+    static int MIN = 2;
+    static int MAX = 10;
 
     public static void rejectIfBadNickName(String nickName) {
         String trimmed = nickName.trim();

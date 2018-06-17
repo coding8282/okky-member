@@ -3,6 +3,7 @@ package org.okky.member.domain.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.okky.share.domain.ValueObject;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -12,22 +13,24 @@ import javax.persistence.Embeddable;
 import javax.persistence.EntityListeners;
 
 import static java.lang.String.format;
+import static lombok.AccessLevel.PRIVATE;
 import static lombok.AccessLevel.PROTECTED;
 import static org.okky.share.domain.AssertionConcern.assertArgLength;
 import static org.okky.share.domain.AssertionConcern.assertArgNotNull;
 
 @NoArgsConstructor(access = PROTECTED)
 @EqualsAndHashCode(callSuper = false)
+@FieldDefaults(level = PRIVATE)
 @Getter
 @Embeddable
 @EntityListeners(AuditingEntityListener.class)
 public class DropDetail implements ValueObject {
     @Column(length = 200)
-    private String dropReason;
+    String dropReason;
 
     @CreatedDate
     @Column(columnDefinition = "BIGINT UNSIGNED")
-    private long droppedOn;
+    long droppedOn;
 
     public DropDetail(String dropReason) {
         setDropReason(dropReason);

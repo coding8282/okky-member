@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.experimental.FieldDefaults;
 import org.okky.share.domain.ValueObject;
 
 import javax.persistence.Column;
@@ -14,27 +15,28 @@ import static org.okky.share.util.JsonUtil.toPrettyJson;
 
 @AllArgsConstructor(access = PRIVATE)
 @EqualsAndHashCode(callSuper = false)
+@FieldDefaults(level = PRIVATE)
 @Builder
 @Getter
 @Embeddable
 public class LastLog implements ValueObject {
     @Column(length = 50)
-    private String lastWroteArticleId;
+    String lastWroteArticleId;
 
     @Column(length = 50)
-    private String lastWroteReplyId;
+    String lastWroteReplyId;
 
     @Column(columnDefinition = "BIGINT UNSIGNED")
-    private Long lastArticleWroteOn;
+    Long lastArticleWroteOn;
 
     @Column(columnDefinition = "BIGINT UNSIGNED")
-    private Long lastReplyWroteOn;
+    Long lastReplyWroteOn;
 
     @Column(nullable = false, columnDefinition = "BIGINT UNSIGNED")
-    private long nextArticleTime;
+    long nextArticleTime;
 
     @Column(nullable = false, columnDefinition = "BIGINT UNSIGNED")
-    private long nextReplyTime;
+    long nextReplyTime;
 
     public LastLog() {
         this.lastWroteArticleId = null;

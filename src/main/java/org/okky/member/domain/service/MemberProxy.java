@@ -6,21 +6,25 @@ import com.amazonaws.services.cognitoidp.model.SignUpRequest;
 import com.amazonaws.services.cognitoidp.model.SignUpResult;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @Service
+@FieldDefaults(level = PRIVATE)
 public class MemberProxy {
     @Value("${app.aws-user-pool-id}")
-    private String userPoolId;
+    String userPoolId;
     @Value("${app.aws-cognito-client-id}")
-    private String clientId;
+    String clientId;
     @Value("${app.aws-s3-bucket-name}")
-    private String bucketName;
-    private AWSCognitoIdentityProvider cognitoClient;
-    private AmazonS3 s3Client;
+    String bucketName;
+    AWSCognitoIdentityProvider cognitoClient;
+    AmazonS3 s3Client;
 
     public MemberProxy(AWSCognitoIdentityProvider cognitoClient, AmazonS3 s3Client) {
         this.cognitoClient = cognitoClient;
