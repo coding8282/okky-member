@@ -16,7 +16,7 @@ import static org.okky.member.domain.model.PaperingRule.REPLY_INTERVAL;
 import static org.okky.share.util.JsonUtil.toPrettyJson;
 
 @AllArgsConstructor(access = PRIVATE)
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode
 @FieldDefaults(level = PRIVATE)
 @Builder
 @Getter

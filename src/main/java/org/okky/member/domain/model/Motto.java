@@ -25,7 +25,7 @@ import static org.okky.share.util.JsonUtil.toPrettyJson;
  * @author coding8282
  */
 @NoArgsConstructor(access = PRIVATE)
-@EqualsAndHashCode(of = "id", callSuper = false)
+@EqualsAndHashCode(of = "id")
 @FieldDefaults(level = PRIVATE)
 @Getter
 @Entity

@@ -20,7 +20,7 @@ import static org.okky.share.domain.AssertionConcern.assertArgLength;
 import static org.okky.share.domain.AssertionConcern.assertArgNotEmpty;
 
 @NoArgsConstructor(access = PROTECTED)
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode
 @FieldDefaults(level = PRIVATE)
 @Getter
 @Embeddable
