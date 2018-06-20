@@ -1,11 +1,13 @@
 package org.okky.member.domain.repository;
 
 import lombok.experimental.FieldDefaults;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.okky.member.domain.model.Member;
 import org.okky.member.domain.model.Sex;
 import org.okky.member.domain.repository.dto.MemberDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import static lombok.AccessLevel.PRIVATE;
 import static org.hamcrest.core.Is.is;
@@ -15,6 +17,26 @@ import static org.junit.Assert.assertThat;
 public class MemberRepositoryTest extends RepositoryTestMother {
     @Autowired
     MemberRepository repository;
+
+    // TODO: 2018. 6. 20. saveAndFlush()를 해도 insert를 1번만 호출한다.
+    @Ignore
+    @Test
+    public void email_유니크_제약조건_확인() {
+        expect(DataIntegrityViolationException.class);
+
+        repository.saveAndFlush(fixture());
+        repository.saveAndFlush(fixture());
+    }
+
+    // TODO: 2018. 6. 20. saveAndFlush()를 해도 insert를 1번만 호출한다.
+    @Ignore
+    @Test
+    public void nickName_유니크_제약조건_확인() {
+        expect(DataIntegrityViolationException.class);
+
+        repository.saveAndFlush(fixture());
+        repository.saveAndFlush(fixture());
+    }
 
     @Test
     public void findDtoById() {
