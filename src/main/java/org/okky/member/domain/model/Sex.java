@@ -1,12 +1,12 @@
 package org.okky.member.domain.model;
 
-import org.okky.share.domain.AssertionConcern;
 import org.okky.share.execption.BadArgument;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
+import static org.okky.share.domain.AssertionConcern.assertArgNotEmpty;
 
 public enum Sex {
     FEMALE,
@@ -14,7 +14,7 @@ public enum Sex {
 
     public static Sex parse(String value) {
         try {
-            AssertionConcern.assertArgNotEmpty(value, "성별은 필수입니다.");
+            assertArgNotEmpty(value, "성별은 필수입니다.");
             return valueOf(value.toUpperCase());
         } catch (IllegalArgumentException e) {
             String possibleValues = String.join(",", Arrays
