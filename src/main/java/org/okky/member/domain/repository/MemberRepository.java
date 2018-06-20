@@ -12,6 +12,7 @@ import java.util.Optional;
 @RepositoryDefinition(domainClass = Member.class, idClass = String.class)
 public interface MemberRepository extends RevisionRepository<Member, String, Long> {
     void save(Member member);
+    void saveAndFlush(Member member);
     boolean existsById(String id);
     boolean existsByNickName(String nickName);
     boolean existsByEmail(String email);

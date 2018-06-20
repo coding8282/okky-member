@@ -30,7 +30,7 @@ import static org.okky.share.domain.AssertionConcern.assertArgNotNull;
 @Getter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "MEMBER",
+@Table(
         indexes = {
                 @Index(name = "I_EMAIL", columnList = "EMAIL", unique = true),
                 @Index(name = "I_NICK_NAME", columnList = "NICK_NAME", unique = true),
