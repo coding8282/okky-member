@@ -21,6 +21,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 class MemberResource {
     MemberService service;
     MemberRepository repository;
+    ContextHolder holder;
 
     @GetMapping(value = "/members/exists", params = "email")
     boolean existsByEmail(@RequestParam String email) {
@@ -49,7 +50,7 @@ class MemberResource {
     @GetMapping(value = "/members/me", produces = APPLICATION_JSON_VALUE)
     MemberDto getMe() {
         return repository
-                .findDtoById(ContextHelper.getId())
+                .findDtoById(holder.getId())
                 .orElseThrow(ResourceNotFound::new);
     }
 
@@ -63,7 +64,7 @@ class MemberResource {
     @ResponseStatus(NO_CONTENT)
     void modify(
             @RequestBody ModifyMemberCommand cmd) {
-        cmd.setMemberId(ContextHelper.getId());
+        cmd.setMemberId(holder.getId());
         service.modify(cmd);
     }
 
@@ -71,7 +72,7 @@ class MemberResource {
     @ResponseStatus(NO_CONTENT)
     void drop(
             @RequestBody DropMemberCommand cmd) {
-        cmd.setMemberId(ContextHelper.getId());
+        cmd.setMemberId(holder.getId());
         service.drop(cmd);
     }
 }
