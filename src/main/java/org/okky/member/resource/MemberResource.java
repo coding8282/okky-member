@@ -72,7 +72,7 @@ class MemberResource {
     @Secured("ROLE_ADMIN")
     @PutMapping(value = "/members/{memberId}/blocked/toggle")
     @ResponseStatus(NO_CONTENT)
-    void toggleBlock(String memberId) {
+    void toggleBlock(@PathVariable String memberId) {
         service.toggleBlock(memberId);
     }
 
