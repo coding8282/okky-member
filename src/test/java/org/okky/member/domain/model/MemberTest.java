@@ -3,15 +3,23 @@ package org.okky.member.domain.model;
 import org.junit.Test;
 import org.okky.member.TestMother;
 import org.okky.member.domain.exception.PaperingDetected;
+import org.okky.share.execption.ModelConflicted;
 
 import static java.lang.System.currentTimeMillis;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.okky.member.domain.model.Sex.FEMALE;
-import static org.okky.member.domain.model.Sex.MALE;
 
 
 public class MemberTest extends TestMother {
+    @Test
+    public void 일단_한_번_할당된_id를_수정하면_예외() {
+        expect(ModelConflicted.class, "한번 할당된 id는 바꿀 수 없습니다.");
+
+        Member member = fixture();
+        member.assignId("m-9999");
+    }
+
     @Test
     public void 너무_빨리_게시글을_쓰면_도배_예외() {
         expect(PaperingDetected.class);
@@ -50,6 +58,14 @@ public class MemberTest extends TestMother {
 
     // ------------------------------------------------------
     private Member fixture() {
-        return new Member("coding8282@gmail.com", "현수", "coding8282", MALE, "열심히 노력하자.", "나의 자기 소개서입니다.");
+        String email1 = "coding8282@gmail.com";
+        String name1 = "현수";
+        String nickName1 = "coding8282";
+        Sex sex1 = FEMALE;
+        String motto1 = "열심히 노력하자.";
+        String description1 = "안녕하세요, 나의 자기소개입니다.";
+        Member member = new Member(email1, name1, nickName1, sex1, motto1, description1);
+        member.assignId("m-1234");
+        return member;
     }
 }

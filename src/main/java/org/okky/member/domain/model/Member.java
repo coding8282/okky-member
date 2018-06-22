@@ -10,7 +10,6 @@ import org.okky.member.domain.exception.PaperingDetected;
 import org.okky.member.util.DateUtil;
 import org.okky.share.domain.Aggregate;
 import org.okky.share.execption.ModelConflicted;
-import org.okky.share.util.JsonUtil;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -23,6 +22,7 @@ import static lombok.AccessLevel.PRIVATE;
 import static lombok.AccessLevel.PROTECTED;
 import static org.okky.share.domain.AssertionConcern.assertArgLength;
 import static org.okky.share.domain.AssertionConcern.assertArgNotNull;
+import static org.okky.share.util.JsonUtil.toPrettyJson;
 
 @NoArgsConstructor(access = PROTECTED)
 @EqualsAndHashCode(of = "id")
@@ -92,6 +92,10 @@ public class Member implements Aggregate {
     }
 
     public static void main(String[] args) {
+        System.out.println(toPrettyJson(sample()));
+    }
+
+    public static Member sample() {
         String email1 = "coding8282@gmail.com";
         String name1 = "현수";
         String nickName1 = "coding8282";
@@ -100,7 +104,7 @@ public class Member implements Aggregate {
         String description1 = "안녕하세요, 나의 자기소개입니다.";
         Member member = new Member(email1, name1, nickName1, sex1, motto1, description1);
         member.assignId("m-1234");
-        System.out.println(JsonUtil.toPrettyJson(member));
+        return member;
     }
 
     public boolean isDifferentNickName(String nickName) {
@@ -108,6 +112,8 @@ public class Member implements Aggregate {
     }
 
     public void assignId(String id) {
+        if (wasAlreadyAssigned(id))
+            throw new ModelConflicted("한번 할당된 id는 바꿀 수 없습니다.");
         setId(id);
     }
 
@@ -156,6 +162,10 @@ public class Member implements Aggregate {
     }
 
     // -----------------------------------------------------------
+    private boolean wasAlreadyAssigned(String id) {
+        return id != null;
+    }
+
     private void rejectIfDropped() {
         if (dropped())
             throw new ModelConflicted("탈퇴한 사용자이므로 더 이상 진행할 수 없습니다.");
