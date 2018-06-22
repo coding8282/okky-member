@@ -10,6 +10,7 @@ import org.okky.member.domain.model.NickNameRule;
 import org.okky.member.domain.repository.MemberRepository;
 import org.okky.member.domain.repository.dto.MemberDto;
 import org.okky.share.execption.ResourceNotFound;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -68,10 +69,16 @@ class MemberResource {
         service.modify(cmd);
     }
 
+    @Secured("ROLE_ADMIN")
+    @PutMapping(value = "/members/{memberId}/blocked/toggle")
+    @ResponseStatus(NO_CONTENT)
+    void toggleBlock(String memberId) {
+        service.toggleBlock(memberId);
+    }
+
     @DeleteMapping(value = "/members/me/drop")
     @ResponseStatus(NO_CONTENT)
-    void drop(
-            @RequestBody DropMemberCommand cmd) {
+    void drop(@RequestBody DropMemberCommand cmd) {
         cmd.setMemberId(holder.getId());
         service.drop(cmd);
     }
