@@ -9,6 +9,7 @@ import org.hibernate.envers.Audited;
 import org.okky.member.domain.exception.PaperingDetected;
 import org.okky.member.util.DateUtil;
 import org.okky.share.domain.Aggregate;
+import org.okky.share.execption.BadArgument;
 import org.okky.share.execption.ModelConflicted;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -80,7 +81,7 @@ public class Member implements Aggregate {
     @Column
     DropDetail dropDetail;
 
-    @Column
+    @Column(nullable = false, length = 1)
     @Type(type = "true_false")
     boolean blocked;
 
@@ -126,7 +127,13 @@ public class Member implements Aggregate {
         setDescription(description);
     }
 
+    public void appointAsAdmin() {
+        setAdmin(true);
+    }
+
     public void toggleBlock() {
+        if (isAdmin())
+            throw new BadArgument(String.format("관리자는 차단할 수 없습니다."));
         this.blocked = !this.blocked;
     }
 

@@ -3,6 +3,7 @@ package org.okky.member.domain.model;
 import org.junit.Test;
 import org.okky.member.TestMother;
 import org.okky.member.domain.exception.PaperingDetected;
+import org.okky.share.execption.BadArgument;
 import org.okky.share.execption.ModelConflicted;
 
 import static java.lang.System.currentTimeMillis;
@@ -25,6 +26,23 @@ public class MemberTest extends TestMother {
         Member member = fixture();
 
         assertThat("처음 회원이 생성되었을 때는 block되지 않은 상태이다.", member.isBlocked(), is(false));
+    }
+
+    @Test
+    public void 관리자로_임명_후_확인() {
+        Member member = fixture();
+        member.appointAsAdmin();
+
+        assertTrue("관리자라면 true여야 한다.", member.isAdmin());
+    }
+
+    @Test
+    public void 관리자를_차단하려고_시도하면_예외() {
+        expect(BadArgument.class, "관리자는 차단할 수 없습니다.");
+
+        Member member = fixture();
+        member.appointAsAdmin();
+        member.toggleBlock();
     }
 
     @Test
