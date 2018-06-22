@@ -84,6 +84,17 @@ public class MemberServiceTest extends TestMother {
     }
 
     @Test
+    public void toggleBlock() {
+        when(constraint.checkExistsAndGet("m-1")).thenReturn(member);
+
+        service.toggleBlock("m-1");
+
+        InOrder o = inOrder(constraint, member);
+        o.verify(constraint).checkExistsAndGet("m-1");
+        o.verify(member).toggleBlock();
+    }
+
+    @Test
     public void drop() {
         DropMemberCommand cmd = new DropMemberCommand("m-1", "r");
         when(constraint.checkExistsAndGet("m-1")).thenReturn(member);

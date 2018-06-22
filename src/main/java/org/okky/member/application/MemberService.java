@@ -46,6 +46,11 @@ public class MemberService {
         member.modify(cmd.getName(), nickName, sex, cmd.getMotto(), cmd.getDescription());
     }
 
+    public void toggleBlock(String memberId) {
+        Member member = constraint.checkExistsAndGet(memberId);
+        member.toggleBlock();
+    }
+
     @PreAuthorize("@memberSecurityInspector.isMe(#cmd.memberId)")
     public void drop(DropMemberCommand cmd) {
         String memberId = cmd.getMemberId();
