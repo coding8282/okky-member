@@ -13,6 +13,7 @@ public class MemberDto {
     String sex;
     String motto;
     String description;
+    boolean blocked;
     String lastWroteArticleId;
     String lastWroteReplyId;
     Long joinedOn;
@@ -28,6 +29,7 @@ public class MemberDto {
         this.sex = m.getSex().name();
         this.motto = m.getMotto();
         this.description = m.getDescription();
+        this.blocked = m.isBlocked();
         this.lastWroteArticleId = m.getLastLog().getLastWroteArticleId();
         this.lastWroteReplyId = m.getLastLog().getLastWroteReplyId();
         this.joinedOn = m.getJoinedOn();
