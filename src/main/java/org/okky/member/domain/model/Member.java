@@ -80,6 +80,10 @@ public class Member implements Aggregate {
     @Column
     DropDetail dropDetail;
 
+    @Column
+    @Type(type = "true_false")
+    boolean blocked;
+
     public Member(String email, String name, String nickName, Sex sex, String motto, String description) {
         setEmail(email);
         setName(name);
@@ -107,12 +111,8 @@ public class Member implements Aggregate {
         return member;
     }
 
-    public boolean isDifferentNickName(String nickName) {
-        return !this.nickName.equals(nickName);
-    }
-
     public void assignId(String id) {
-        if (wasAlreadyAssigned(id))
+        if (wasAlreadyAssigned())
             throw new ModelConflicted("한번 할당된 id는 바꿀 수 없습니다.");
         setId(id);
     }
@@ -126,16 +126,8 @@ public class Member implements Aggregate {
         setDescription(description);
     }
 
-    public void renewArticleLog(String articleId, long wroteOn) {
-        rejectIfDropped();
-        LastLog newLastLog = lastLog.withChangedArticle(articleId, wroteOn);
-        setLastLog(newLastLog);
-    }
-
-    public void renewReplyLog(String replyId, long repliedOn) {
-        rejectIfDropped();
-        LastLog newLastLog = lastLog.withChangedReply(replyId, repliedOn);
-        setLastLog(newLastLog);
+    public void toggleBlock() {
+        this.blocked = !this.blocked;
     }
 
     public void drop(String dropReason) {
@@ -143,6 +135,29 @@ public class Member implements Aggregate {
         setDropDetail(new DropDetail(dropReason));
     }
 
+    public boolean dropped() {
+        return dropDetail != null;
+    }
+
+    public boolean isDifferentNickName(String nickName) {
+        return !this.nickName.equals(nickName);
+    }
+
+    @Deprecated
+    public void renewArticleLog(String articleId, long wroteOn) {
+        rejectIfDropped();
+        LastLog newLastLog = lastLog.withChangedArticle(articleId, wroteOn);
+        setLastLog(newLastLog);
+    }
+
+    @Deprecated
+    public void renewReplyLog(String replyId, long repliedOn) {
+        rejectIfDropped();
+        LastLog newLastLog = lastLog.withChangedReply(replyId, repliedOn);
+        setLastLog(newLastLog);
+    }
+
+    @Deprecated
     public void checkArticlePapering() {
         if (!isPossibleWritingArticle()) {
             String time = DateUtil.toDateString(lastLog.getNextArticleTime());
@@ -150,6 +165,7 @@ public class Member implements Aggregate {
         }
     }
 
+    @Deprecated
     public void checkReplyPapering() {
         if (!isPossibleReplying()) {
             String time = DateUtil.toDateString(lastLog.getNextReplyTime());
@@ -157,13 +173,9 @@ public class Member implements Aggregate {
         }
     }
 
-    public boolean dropped() {
-        return dropDetail != null;
-    }
-
     // -----------------------------------------------------------
-    private boolean wasAlreadyAssigned(String id) {
-        return id != null;
+    private boolean wasAlreadyAssigned() {
+        return this.id != null;
     }
 
     private void rejectIfDropped() {

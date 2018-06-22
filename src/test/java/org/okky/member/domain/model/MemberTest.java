@@ -7,7 +7,7 @@ import org.okky.share.execption.ModelConflicted;
 
 import static java.lang.System.currentTimeMillis;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.okky.member.domain.model.Sex.FEMALE;
 
 
@@ -20,6 +20,29 @@ public class MemberTest extends TestMother {
         member.assignId("m-9999");
     }
 
+    @Test
+    public void 처음_회원이_생성되었을_때는_blocked는_false_확인() {
+        Member member = fixture();
+
+        assertThat("처음 회원이 생성되었을 때는 block되지 않은 상태이다.", member.isBlocked(), is(false));
+    }
+
+    @Test
+    public void toggleBlock_확인() {
+        Member member = fixture();
+
+        assertFalse("처음 회원이 생성되었을 때는 block되지 않은 상태이다.", member.isBlocked());
+
+        member.toggleBlock();
+
+        assertTrue("토글 후에는 block된 상태이다.", member.isBlocked());
+
+        member.toggleBlock();
+
+        assertFalse("다시 토글 후에는 block된 상태가 아니다.", member.isBlocked());
+    }
+
+    // --------------------- 아래는 다른 Bounded Context로 옮겨질 예정
     @Test
     public void 너무_빨리_게시글을_쓰면_도배_예외() {
         expect(PaperingDetected.class);
