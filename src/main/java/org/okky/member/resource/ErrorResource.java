@@ -14,7 +14,7 @@ import static org.springframework.http.HttpStatus.*;
 @ControllerAdvice
 @ResponseBody
 @Slf4j
-class ErrorCatcher {
+class ErrorResource {
     @Value("${app.name}")
     String appName;
 
