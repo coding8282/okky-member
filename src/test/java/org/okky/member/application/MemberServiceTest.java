@@ -3,6 +3,7 @@ package org.okky.member.application;
 import lombok.experimental.FieldDefaults;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -12,11 +13,14 @@ import org.okky.member.application.command.DropMemberCommand;
 import org.okky.member.application.command.JoinMemberCommand;
 import org.okky.member.application.command.ModifyMemberCommand;
 import org.okky.member.domain.model.Member;
+import org.okky.member.domain.model.Sex;
 import org.okky.member.domain.repository.MemberRepository;
 import org.okky.member.domain.service.MemberConstraint;
 import org.okky.member.domain.service.MemberProxy;
 
 import static lombok.AccessLevel.PRIVATE;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentCaptor.forClass;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.okky.member.domain.model.Sex.MALE;
@@ -53,6 +57,7 @@ public class MemberServiceTest extends TestMother {
         o.verify(member).assignId("m-1");
         o.verify(repository).save(member);
         o.verify(proxy).generateProfileImage("m-1");
+
     }
 
     @Test
@@ -60,13 +65,16 @@ public class MemberServiceTest extends TestMother {
         ModifyMemberCommand cmd = new ModifyMemberCommand("m-1", "e", "n", "nn", "MALE", "mt", "d");
         when(constraint.checkExistsAndGet("m-1")).thenReturn(member);
         when(member.isDifferentNickName("nn")).thenReturn(false);
+        ArgumentCaptor<Sex> captor = forClass(Sex.class);
 
         service.modify(cmd);
 
         InOrder o = inOrder(constraint, member);
         o.verify(constraint).checkExistsAndGet("m-1");
-        o.verify(constraint, never()).rejectIfUnavailableNickName("nn");
-        o.verify(member).modify("n", "nn", MALE, "mt", "d");
+        o.verify(constraint, never()).rejectIfUnavailableNickName(eq("nn"));
+        o.verify(member).modify(eq("n"), eq("nn"), captor.capture(), eq("mt"), eq("d"));
+
+        assertEquals("인자로 남성이 사용되어야 한다.", MALE, captor.getValue());
     }
 
     @Test
@@ -74,13 +82,16 @@ public class MemberServiceTest extends TestMother {
         ModifyMemberCommand cmd = new ModifyMemberCommand("m-1", "e", "n", "nn", "MALE", "mt", "d");
         when(constraint.checkExistsAndGet("m-1")).thenReturn(member);
         when(member.isDifferentNickName("nn")).thenReturn(true);
+        ArgumentCaptor<Sex> captor = forClass(Sex.class);
 
         service.modify(cmd);
 
         InOrder o = inOrder(constraint, member);
         o.verify(constraint).checkExistsAndGet("m-1");
         o.verify(constraint).rejectIfUnavailableNickName("nn");
-        o.verify(member).modify("n", "nn", MALE, "mt", "d");
+        o.verify(member).modify(eq("n"), eq("nn"), captor.capture(), eq("mt"), eq("d"));
+
+        assertEquals("인자로 남성이 사용되어야 한다.", MALE, captor.getValue());
     }
 
     @Test
