@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.okky.member.domain.model.Member;
 import org.okky.member.domain.model.Sex;
 import org.okky.member.domain.repository.dto.MemberDto;
+import org.okky.member.domain.repository.dto.MemberInterenalDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 
@@ -50,6 +51,20 @@ public class MemberRepositoryTest extends RepositoryTestMother {
         assertThat("name이 다르다.", dto.getName(), is(member.getName()));
         assertThat("nickName이 다르다.", dto.getNickName(), is(member.getNickName()));
         assertThat("sex가 다르다.", dto.getSex(), is(member.getSex().name()));
+        assertThat("motto가 다르다.", dto.getMotto(), is(member.getMotto()));
+        assertThat("description가 다르다.", dto.getDescription(), is(member.getDescription()));
+        assertThat("blocked가 다르다.", dto.isBlocked(), is(member.isBlocked()));
+    }
+
+    @Test
+    public void findInternalDtoById() {
+        Member member = fixture();
+        repository.save(member);
+        MemberInterenalDto dto = repository.findInternalDtoById(member.getId()).orElse(null);
+
+        assertThat("id가 다르다.", dto.getId(), is(member.getId()));
+        assertThat("type이 다르다.", dto.getType(), is(member.isAdmin() ? "admin" : "user"));
+        assertThat("nickName이 다르다.", dto.getNickName(), is(member.getNickName()));
         assertThat("motto가 다르다.", dto.getMotto(), is(member.getMotto()));
         assertThat("description가 다르다.", dto.getDescription(), is(member.getDescription()));
         assertThat("blocked가 다르다.", dto.isBlocked(), is(member.isBlocked()));

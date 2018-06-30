@@ -2,6 +2,7 @@ package org.okky.member.domain.repository;
 
 import org.okky.member.domain.model.Member;
 import org.okky.member.domain.repository.dto.MemberDto;
+import org.okky.member.domain.repository.dto.MemberInterenalDto;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.RepositoryDefinition;
 import org.springframework.data.repository.history.RevisionRepository;
@@ -24,4 +25,9 @@ public interface MemberRepository extends RevisionRepository<Member, String, Lon
             "from Member m " +
             "where m.id=:id ")
     Optional<MemberDto> findDtoById(@Param("id") String id);
+    @Query("select " +
+            "new org.okky.member.domain.repository.dto.MemberInterenalDto(m) " +
+            "from Member m " +
+            "where m.id=:id ")
+    Optional<MemberInterenalDto> findInternalDtoById(@Param("id") String id);
 }
