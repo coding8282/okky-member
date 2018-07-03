@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-curl -X POST http://localhost:9001/okky-actuator/shutdown
+sudo service okky-member stop
 sleep 5s

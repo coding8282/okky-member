@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
-nohup java -jar \
-/home/ec2-user/okky-member-1.0.0.jar \
-> /dev/null 2> /dev/null < /dev/null &
+sudo chmod +x /home/ec2-user/okky-member-1.0.0.jar
+sudo ln -sf /home/ec2-user/okky-member-1.0.0.jar /etc/init.d/okky-member
+sudo service okky-member start
+sleep 10s
