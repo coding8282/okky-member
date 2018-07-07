@@ -17,6 +17,7 @@
     <properties>
         <aws-cognitoidp.version>1.11.232</aws-cognitoidp.version>
         <aws-s3.version>1.11.232</aws-s3.version>
+        <sonar.projectKey>okky-member</sonar.projectKey>
     </properties>
 
     <dependencies>
